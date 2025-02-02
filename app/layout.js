@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import { dbConnect } from "@/service/mongo";
 
 
 const inter = Inter({subsets:["latin"]});
@@ -17,7 +18,10 @@ export const metadata = {
   description: "Explore || Learn || Build || Share",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+
+  const conn = await dbConnect();
+   
   return (
     <html lang="en">
       <body
