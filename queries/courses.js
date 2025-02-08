@@ -5,16 +5,10 @@ import { Module } from "@/model/module.model";
 import { Testimonial } from "@/model/testimonial-model";
 import { User } from "@/model/user-model";
 
+import { replaceMongoIdInArray } from "@/lib/convertData";
+export async function getCourseList() {
 
-
-
-
-
-
-
-export async function getCourses() {
-
-    const courses = await Course.find({}).populate({
+    const courses = await Course.find({}).select(["title","subtitle","thumbnail","modules","price","category","instructor"]).populate({
         path:"category",
         model: Category,
         strictPopulate: false
@@ -30,13 +24,9 @@ export async function getCourses() {
         path:"modules",
         strictPopulate: false,
         model:Module
-    })
-    
-    
-    
-    
+    }).lean()
     ;
-    return courses;
+    return replaceMongoIdInArray(courses);
     
 }
 
